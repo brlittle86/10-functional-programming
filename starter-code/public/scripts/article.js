@@ -83,12 +83,20 @@
 
   Article.numWordsByAuthor = () => {
     return Article.allAuthors().map(author => {
-      // TODO: Transform each author string into an object with properties for
+      // DONE: Transform each author string into an object with properties for
       // the author's name, as well as the total number of words across all articles
       // written by the specified author.
-      console.log(author);
-      if (Article.all.forEach())
-      
+      return {
+        name: author,
+        words: Article.all.filter(function (article) {
+          return article.author === author;
+        }).map(function (article) {
+          return article.body.split(' ').length
+        }).reduce(function (acc, current) {
+          return acc + current;
+        })
+      }
+    })
   };
 
   Article.truncateTable = callback => {
