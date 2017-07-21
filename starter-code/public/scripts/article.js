@@ -30,11 +30,8 @@
 
     // DONE: Refactor this forEach code, by using a `.map` call instead, since what we are trying to accomplish
     // is the transformation of one collection into another.
-    function objectify(ele) {
-      return new Article(ele);
-    }
 
-    Article.all = rows.map(objectify);
+    Article.all = rows.map(ele => new Article(ele));
     /* OLD forEach():
     rawData.forEach(function(ele) {
     Article.all.push(new Article(ele));
@@ -46,22 +43,22 @@
   Article.fetchAll = callback => {
     $.get('/articles')
       .then(
-      results => {
-        if (results.length) {
-          Article.loadAll(results);
-          callback();
-        } else {
-          $.getJSON('./data/hackerIpsum.json')
-            .then(rawData => {
-              rawData.forEach(item => {
-                let article = new Article(item);
-                article.insertRecord();
+        results => {
+          if (results.length) {
+            Article.loadAll(results);
+            callback();
+          } else {
+            $.getJSON('./data/hackerIpsum.json')
+              .then(rawData => {
+                rawData.forEach(item => {
+                  let article = new Article(item);
+                  article.insertRecord();
+                })
               })
-            })
-            .then(() => Article.fetchAll(callback))
-            .catch(console.error);
+              .then(() => Article.fetchAll(callback))
+              .catch(console.error);
+          }
         }
-      }
       )
   };
 
